@@ -1,0 +1,14 @@
+.note {
+  padding: $space;
+
+  font-weight: 700;
+  color: white;
+
+  &--info {
+    background: $primary--light;
+  }
+
+  &--error {
+    background: $error;
+  }
+}
