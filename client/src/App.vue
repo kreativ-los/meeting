@@ -18,6 +18,7 @@
   @import './scss/modules/links';
   @import './scss/modules/grid';
   @import './scss/modules/note';
+  @import './scss/modules/overlay';
 
 
   body {

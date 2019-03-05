@@ -1,8 +1,9 @@
 <template>
-  <div class="new-meeting" v-bind:class="{ error: hasError }">
+  <div class="new-meeting" v-bind:class="{ error: nameExists }">
     <h2>Neues Meeting erstellen…</h2>
 
-    <div v-if="hasError" class="note note--error">Der gewünschte Name ist bereits vorhanden!</div>
+    <div v-if="nameExists" class="note note--error">Der gewünschte Name ist bereits vorhanden!</div>
+    <div v-if="hasError" class="note note--error">Es ist ein Fehler aufgetreten!</div>
 
     <form @submit.prevent="createMeeting()">
       <input type="text" placeholder="Name" v-model="customName">
@@ -26,6 +27,7 @@ export default {
       customName: '',
       host: window.location.protocol.concat('//').concat(window.location.hostname),
       randomName: '',
+      nameExists: false,
       hasError: false
     }
   },
@@ -54,8 +56,9 @@ export default {
             params: { meetingName: this.meetingName }
           });
         })
-        .catch(() => {
-          this.hasError = true;
+        .catch((status) => {
+          if (status === 500) this.nameExists = true;
+          else this.hasError = true;
         });
     }
   }

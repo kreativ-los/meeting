@@ -6,6 +6,7 @@ import Participator from '../api/controllers/participatorController';
 const io = socketIO();
 
 const list = io.of('/list');
+const participator = io.of('/participator');
 
 list.on('connection', function(socket) {
   const query = socket.handshake.query;
@@ -13,16 +14,22 @@ list.on('connection', function(socket) {
 
   if (meeting) {
     meeting.set('listSocket', socket);
+
+    socket.on('disconnect', () => {
+      participator.to(query.meeting).emit('disconnect');
+
+      meetingsModel.delete(query.meeting);
+    });
   }
 });
-
-const participator = io.of('/participator');
 
 participator.on('connection', function(socket) {
     const query = socket.handshake.query;
     const meeting = meetingsModel.get(query.meeting);
 
     if (meeting) {
+      socket.join(query.meeting);
+
       meeting.get('participators').data.forEach((participator) => {
         if (participator.get('name') === query.participator) {
           participator.set('socket', socket);
@@ -34,7 +41,6 @@ participator.on('connection', function(socket) {
             Participator.next(query.meeting);
           });
 
-          console.log(meeting.get('participators').count());
           if (meeting.get('participators').count() === 1) {
             setTimeout(() => {
               Participator.next(query.meeting);

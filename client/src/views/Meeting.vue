@@ -5,11 +5,14 @@
     <input type="text" v-model="participatorName">
 
     <button type="button" class="talk" @click="(state === 'default') ? start() : stop()">Reden</button>
+
+    <div v-if="meetingClosed" class="overlay"><div class="container">Das Meeting wurde beendet</div></div>
   </div>
 </template>
 
 <script>
 import Api from '../includes/api';
+import router from '../router';
 
 export default {
   name: 'Meeting',
@@ -17,7 +20,8 @@ export default {
     return {
       participatorName: '',
       state: 'default',
-      meetingName: this.$route.params.meetingName
+      meetingName: this.$route.params.meetingName,
+      meetingClosed: false
     }
   },
   methods: {
@@ -31,6 +35,15 @@ export default {
           }, '/participator').on('active', () => {
             this.state = 'active';
             window.navigator.vibrate(200);
+          }).on('disconnect', () => {
+            this.meetingClosed = true;
+            this.stop();
+
+            setTimeout(() => {
+              router.push({
+                name: 'newMeeting'
+              });
+            }, 2000)
           });
         });
     },

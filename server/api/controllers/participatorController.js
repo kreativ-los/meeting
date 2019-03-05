@@ -33,6 +33,6 @@ export default class ParticipatorController {
   static next(meetingName) {
     const participatorStore = meetingsModel.get(meetingName).get('participators');
     const next = participatorStore.last();
-    next.get('socket').emit('active');
+    if (next) next.get('socket').emit('active');
   }
 }
