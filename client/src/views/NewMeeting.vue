@@ -2,16 +2,26 @@
   <div class="new-meeting" v-bind:class="{ error: nameExists }">
     <h2>Neues Meeting erstellen…</h2>
 
-    <div v-if="nameExists" class="note note--error">Der gewünschte Name ist bereits vorhanden!</div>
-    <div v-if="hasError" class="note note--error">Es ist ein Fehler aufgetreten!</div>
+    <div class="grid">
+      <div class="col--3">
+        <div class="qr-code">
+          <qrcode :value="meetingUrl" :options="{ width: 200 }"/>
+        </div>
+      </div>
 
-    <form @submit.prevent="createMeeting()">
-      <input type="text" placeholder="Name" v-model="customName">
-      <button type="submit">Erstellen</button>
-    </form>
+      <div class="col--9">
+        <div v-if="nameExists" class="note note--error">Der gewünschte Name ist bereits vorhanden!</div>
+        <div v-if="hasError" class="note note--error">Es ist ein Fehler aufgetreten!</div>
 
-    <div class="note note--info">
-      Url: <span class="url">{{ meetingUrl }}</span>
+        <form @submit.prevent="createMeeting()">
+          <input type="text" placeholder="Name" v-model="customName">
+          <button type="submit">Erstellen</button>
+        </form>
+
+        <div class="note note--info">
+          Url: <span class="url">{{ meetingUrl }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -19,6 +29,8 @@
 <script>
 import Api from '../includes/api';
 import router from '../router';
+
+import qrcode from '@chenfengyuan/vue-qrcode';
 
 export default {
   name: 'NewMeeting',
@@ -61,6 +73,9 @@ export default {
           else this.hasError = true;
         });
     }
+  },
+  components: {
+    qrcode
   }
 }
 </script>
@@ -79,5 +94,13 @@ export default {
 
   .note {
     margin: $space 0;
+  }
+
+  .qr-code {
+    display: inline-block;
+    padding: 25px;
+    background: white;
+    border-radius: 50%;
+    overflow: hidden;
   }
 </style>
