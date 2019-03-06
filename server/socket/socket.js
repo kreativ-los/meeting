@@ -16,7 +16,7 @@ list.on('connection', function(socket) {
     meeting.set('listSocket', socket);
 
     socket.on('disconnect', () => {
-      participator.to(query.meeting).emit('disconnect');
+      participator.to(query.meeting).emit('meetingClosed');
 
       meetingsModel.delete(query.meeting);
     });

@@ -19,7 +19,7 @@
   @import './scss/modules/grid';
   @import './scss/modules/note';
   @import './scss/modules/overlay';
-
+  @import './scss/modules/qr-code';
 
   body {
     font-family: $font-family;

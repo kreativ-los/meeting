@@ -35,7 +35,7 @@ export default {
           }, '/participator').on('active', () => {
             this.state = 'active';
             window.navigator.vibrate(200);
-          }).on('disconnect', () => {
+          }).on('meetingClosed', () => {
             this.meetingClosed = true;
             this.stop();
 

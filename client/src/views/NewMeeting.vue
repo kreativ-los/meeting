@@ -95,12 +95,4 @@ export default {
   .note {
     margin: $space 0;
   }
-
-  .qr-code {
-    display: inline-block;
-    padding: 25px;
-    background: white;
-    border-radius: 50%;
-    overflow: hidden;
-  }
 </style>
