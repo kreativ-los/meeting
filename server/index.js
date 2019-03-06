@@ -23,3 +23,5 @@ const server = app.listen(port);
 console.log('server runnung under: http://localhost:' +  + port);
 
 socket.attach(server);
+
+if (process.env.NODE_ENV === 'production') app.use(express.static('../client/dist'));

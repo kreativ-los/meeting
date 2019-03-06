@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-export const apiUrl = `${location.protocol}//${location.hostname}:8080/api/v1`;
+export const apiUrl = `${location.protocol}//${location.hostname}:${location.port}/api/v1`;
 
 class Api {
   post(route, data) {
