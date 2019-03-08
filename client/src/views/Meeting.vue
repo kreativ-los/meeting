@@ -2,9 +2,9 @@
   <div class="meeting" :class="'meeting--state-' + state">
     <h2>Meeting {{ meetingName }}</h2>
 
-    <input type="text" v-model="participatorName">
+    <input type="text" v-model="participatorName" placeholder="Dein Name…">
 
-    <button type="button" class="talk" @click="(state === 'default') ? start() : stop()">Reden</button>
+    <button type="button" class="talk" @click="(state === 'default') ? start() : stop()" :disabled="participatorName === ''">Reden</button>
 
     <div v-if="meetingClosed" class="overlay"><div class="container">Das Meeting wurde beendet</div></div>
     <div v-if="meetingNotFound" class="overlay overlay--error"><div class="container">Das Meeting existiert leider nicht</div></div>
@@ -50,12 +50,10 @@ export default {
   created: function() {
     Api.post('meetings/has', {name: this.meetingName})
       .then(() => {
-        console.log('sdfasdf');
         this.conncectionSocket = Api.createSocket({
           meeting: this.meetingName
         }, '/meeting')
           .on('meetingClosed', () => {
-            console.log('closed');
             this.meetingClosed = true;
             this.stop();
 
@@ -85,42 +83,44 @@ export default {
 
   @keyframes pulse {
     0% {
-      box-shadow: 0 0 2rem 1rem rgba($error, .6);
+      box-shadow: 0 0 2rem 1rem var(--color);
     }
 
     50% {
-      box-shadow: 0 0 5rem 1rem rgba($error, .6);
+      box-shadow: 0 0 5rem 1rem var(--color);
     }
 
     100% {
-      box-shadow: 0 0 2rem 1rem rgba($error, .6);
+      box-shadow: 0 0 2rem 1rem var(--color);
     }
   }
 
   .talk {
     display: block;
-    background: $error;
+    background: var(--color);
     border-radius: 50%;
     width: 120px;
     height: 120px;
-    box-shadow: 0 0 5rem 0 rgba($error, .6);
+    box-shadow: 0 0 5rem 0 var(--color);
 
     animation: pulse 3s infinite;
+
+    &[disabled] {
+      background: $disabled;
+      animation: none;
+      box-shadow: none;
+    }
   }
 
   .meeting {
+    --color: #{$error};
+
     &--state-pending {
-      .talk {
-        animation: none;
-        background: $warning;
-      }
+      --color: #{$warning};
     }
 
     &--state-active {
-      .talk {
-        animation: none;
-        background: $success;
-      }
+      --color: #{$success};
     }
   }
 </style>
