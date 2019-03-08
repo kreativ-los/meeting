@@ -57,6 +57,9 @@
   }
 
   .view {
-    /* padding: $space * 2 $space; */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: $space * 2 0;
   }
 </style>

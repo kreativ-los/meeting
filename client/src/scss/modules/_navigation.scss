@@ -9,6 +9,10 @@
     display: flex;
     justify-content: center;
 
+    &:not(:last-child) {
+      margin-right: $space;
+    }
+
     a {
       display: block;
       color: white;
@@ -16,7 +20,6 @@
       font-weight: 700;
 
       transition: background .5s;
-      margin-right: $space;
 
       &.router-link-exact-active,
       &:hover {

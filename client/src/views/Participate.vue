@@ -8,8 +8,8 @@
     <div class="background">
       <div class="container">
         <form @submit.prevent="joinMeeting()" class="grid">
-          <input type="text" placeholder="Name des Meetings" v-model="meetingName" class="col--5 col-offset--3">
-          <button type="submit" class="cta col--3">Teilnehmen</button>
+          <input type="text" placeholder="Name des Meetings" v-model="meetingName" class="col--7 col-md--5 col-md-offset--3">
+          <button type="submit" class="cta col--5 col-md--3">Teilnehmen</button>
         </form>
       </div>
     </div>

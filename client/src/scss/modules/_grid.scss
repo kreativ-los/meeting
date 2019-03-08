@@ -2,6 +2,14 @@
   width: 100%;
   max-width: $container-width;
   margin: 0 auto;
+
+  align-self: center;
+
+  padding: 0 $space;
+
+  @include breakpoint(md up) {
+    padding: 0;
+  }
 }
 
 .grid {
@@ -30,6 +38,14 @@
       @for $i from 1 to 12 {
         &--#{$i} {
           grid-column-end: span #{$i};
+        }
+      }
+    }
+
+    .col-md-offset {
+      @for $i from 1 to 12 {
+        &--#{$i} {
+          grid-column-start: #{$i};
         }
       }
     }

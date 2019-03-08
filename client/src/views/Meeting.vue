@@ -1,11 +1,8 @@
 <template>
-  <div class="meeting" :class="'meeting--state-' + state">
+  <div class="meeting container text--center" :class="'meeting--state-' + state">
     <h2>Meeting <span class="no-uppercase">{{ meetingName }}</span></h2>
 
-    <label>
-      Dein Name:
-      <input type="text" v-model="participatorName" placeholder="Dein Name…">
-    </label>
+    <input type="text" v-model="participatorName" placeholder="Dein Name…">
 
     <div class="button-wrapper">
       <button type="button" class="talk circle" @click="(state === 'default') ? start() : stop()" :disabled="participatorName === ''">Reden</button>
@@ -132,6 +129,8 @@ export default {
     background: var(--color);
     border-radius: 50%;
     box-shadow: 0 0 5rem 0 var(--color);
+
+    outline: none;
 
     animation: pulse 3s infinite;
 

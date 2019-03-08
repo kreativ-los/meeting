@@ -26,9 +26,9 @@
       <div class="container text--center">
         <h3>Oder doch lieber einen eigenen Namen?</h3>
         <div class="grid">
-          <input type="text" placeholder="Wie soll dein Meeting heißen?" v-model="customName" class="col--5 col-offset--3">
+          <input type="text" placeholder="Wie soll dein Meeting heißen?" v-model="customName" class="col--7 col-md--5 col-md-offset--3">
 
-          <button @click.prevent="createMeeting()" class="cta col--3">Jetzt erstellen</button>
+          <button @click.prevent="createMeeting()" class="cta col--5 col-md--3">Jetzt erstellen</button>
         </div>
       </div>
     </div>
