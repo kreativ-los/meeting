@@ -2,5 +2,20 @@
   "name": "Meetings",
   "short_name": "Meetings",
   "start_url": "/",
-  "display": "standalone"
+  "display": "standalone",
+  "description": "Eine einfach App um während Meetings die Gesprächsreihenfolge zu wahren.",
+  "icons": [
+    {
+      "src": "/homescreen/192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/homescreen/512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#24303b",
+  "theme_color": "#2c4460"
 }

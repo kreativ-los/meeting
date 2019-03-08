@@ -15,15 +15,26 @@
 import Api from '../includes/api';
 import router from '../router';
 
+function getParticipatorName() {
+  let name = localStorage.getItem('participatorName');
+
+  return (name) ? name : '';
+}
+
 export default {
   name: 'Meeting',
   data: function () {
     return {
-      participatorName: '',
+      participatorName: getParticipatorName(),
       state: 'default',
       meetingName: this.$route.params.meetingName,
       meetingClosed: false,
       meetingNotFound: false
+    }
+  },
+  watch: {
+    participatorName: function(value) {
+      localStorage.setItem('participatorName', value);
     }
   },
   methods: {
