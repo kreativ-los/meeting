@@ -14,7 +14,7 @@ class Api {
       body: JSON.stringify(data)
     })
       .then(response => {
-        if (!response.ok) throw Error(response.status);
+        if (!response.ok) throw Error(response);
         return response.json();
       });
   }
@@ -38,21 +38,22 @@ class Api {
   }
 
   createSocket(data, namespace) {
+    let socket;
     if (namespace) {
-      this.socket = io(namespace, {
+      socket = io(namespace, {
         query: data
       });
     } else {
-      this.socket = io({
+      socket = io({
         query: data
       });
     }
 
-    return this.socket;
+    return socket;
   }
 
-  closeSocket() {
-    this.socket.disconnect();
+  closeSocket(socket) {
+    socket.disconnect();
   }
 }
 

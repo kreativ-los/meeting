@@ -1,7 +1,12 @@
 <template>
   <div class="participate">
     <h2>Teilnehmen</h2>
-    <QrcodeStream @decode="onDecode"/>
+    <QrcodeStream @decode="joinMeeting"/>
+
+    <form @submit.prevent="joinMeeting()">
+      <input type="text" placeholder="Name" v-model="meetingName">
+      <button type="submit">Teilnehmen</button>
+    </form>
   </div>
 </template>
 
@@ -11,11 +16,16 @@ import router from '../router';
 
 export default {
   name: 'Participate',
+  data: function () {
+    return {
+      meetingName: ''
+    };
+  },
   components: {
     QrcodeStream
   },
   methods: {
-    onDecode(decodedString) {
+    joinMeeting(decodedString = this.meetingName) {
       const meetingId = decodedString.split('/').pop();
 
       router.push({

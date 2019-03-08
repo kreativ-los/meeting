@@ -34,6 +34,18 @@ export default class MeetingsController {
     }
   }
 
+  static has(req, res) {
+    const meetingName = req.body.name;
+
+    if (meetingsModel.has(meetingName)) {
+      res.status(200);
+      res.send('{}');
+    } else {
+      res.status(500);
+      res.send('{}');
+    }
+  }
+
   static randomName(req, res) {
     let name = makeid(5);
 

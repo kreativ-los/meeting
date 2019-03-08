@@ -5,10 +5,11 @@ import Participator from '../api/controllers/participatorController';
 
 const io = socketIO();
 
-const list = io.of('/list');
-const participator = io.of('/participator');
+const listSockets = io.of('/list');
+const participatorSockets = io.of('/participator');
+const meetingSockets = io.of('/meeting');
 
-list.on('connection', function(socket) {
+listSockets.on('connection', function(socket) {
   const query = socket.handshake.query;
   const meeting = meetingsModel.get(query.meeting);
 
@@ -16,39 +17,50 @@ list.on('connection', function(socket) {
     meeting.set('listSocket', socket);
 
     socket.on('disconnect', () => {
-      participator.to(query.meeting).emit('meetingClosed');
+      meetingSockets.to(query.meeting).emit('meetingClosed');
 
       meetingsModel.delete(query.meeting);
     });
   }
 });
 
-participator.on('connection', function(socket) {
+participatorSockets.on('connection', function(socket) {
     const query = socket.handshake.query;
     const meeting = meetingsModel.get(query.meeting);
 
     if (meeting) {
       socket.join(query.meeting);
 
-      meeting.get('participators').data.forEach((participator) => {
-        if (participator.get('name') === query.participator) {
-          participator.set('socket', socket);
+      if (meeting.has('participators')) {
+        meeting.get('participators').data.forEach((participator) => {
+          if (participator.get('name') === query.participator) {
+            participator.set('socket', socket);
 
-          socket.on('disconnect', () => {
-            meeting.get('participators').delete(participator);
-            meeting.get('listSocket').emit('update', meeting.get('participators').toArray());
+            socket.on('disconnect', () => {
+              meeting.get('participators').delete(participator);
+              meeting.get('listSocket').emit('update', meeting.get('participators').toArray());
 
-            Participator.next(query.meeting);
-          });
-
-          if (meeting.get('participators').count() === 1) {
-            setTimeout(() => {
               Participator.next(query.meeting);
-            }, 10);
+            });
+
+            if (meeting.get('participators').count() === 1) {
+              setTimeout(() => {
+                Participator.next(query.meeting);
+              }, 10);
+            }
           }
-        }
-      });
+        });
+      }
     }
+});
+
+meetingSockets.on('connection', function(socket) {
+  const query = socket.handshake.query;
+
+  if (meetingsModel.has(query.meeting)) {
+    console.log(query.meeting);
+    socket.join(query.meeting);
+  }
 });
 
 export default io;

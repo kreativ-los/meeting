@@ -7,6 +7,7 @@
     <button type="button" class="talk" @click="(state === 'default') ? start() : stop()">Reden</button>
 
     <div v-if="meetingClosed" class="overlay"><div class="container">Das Meeting wurde beendet</div></div>
+    <div v-if="meetingNotFound" class="overlay overlay--error"><div class="container">Das Meeting existiert leider nicht</div></div>
   </div>
 </template>
 
@@ -21,7 +22,8 @@ export default {
       participatorName: '',
       state: 'default',
       meetingName: this.$route.params.meetingName,
-      meetingClosed: false
+      meetingClosed: false,
+      meetingNotFound: false
     }
   },
   methods: {
@@ -29,28 +31,50 @@ export default {
       Api.post(`participator/${this.meetingName}/add`, {name: this.participatorName})
         .then(() => {
           this.state = 'pending';
-          Api.createSocket({
+
+          this.participateSocket = Api.createSocket({
             participator: this.participatorName,
             meeting: this.meetingName
-          }, '/participator').on('active', () => {
-            this.state = 'active';
-            window.navigator.vibrate(200);
-          }).on('meetingClosed', () => {
+          }, '/participator')
+            .on('active', () => {
+              this.state = 'active';
+              window.navigator.vibrate(200);
+            });
+        });
+    },
+    stop: function() {
+      Api.closeSocket(this.participateSocket);
+      this.state = 'default';
+    }
+  },
+  created: function() {
+    Api.post('meetings/has', {name: this.meetingName})
+      .then(() => {
+        console.log('sdfasdf');
+        this.conncectionSocket = Api.createSocket({
+          meeting: this.meetingName
+        }, '/meeting')
+          .on('meetingClosed', () => {
+            console.log('closed');
             this.meetingClosed = true;
             this.stop();
 
             setTimeout(() => {
               router.push({
-                name: 'newMeeting'
+                name: 'participate'
               });
-            }, 2000)
+            }, 2000);
           });
-        });
-    },
-    stop: function() {
-      Api.closeSocket();
-      this.state = 'default';
-    }
+      })
+      .catch(() => {
+        this.meetingNotFound = true;
+
+        setTimeout(() => {
+          router.push({
+            name: 'participate'
+          });
+        }, 2000);
+      });
   }
 }
 </script>

@@ -1,5 +1,6 @@
 import express, {Router} from 'express';
 import bodyParser from 'body-parser';
+import history from 'connect-history-api-fallback';
 
 import socket from './socket/socket';
 
@@ -24,4 +25,12 @@ console.log('server runnung under: http://localhost:' +  + port);
 
 socket.attach(server);
 
-if (process.env.NODE_ENV === 'production') app.use(express.static('../client/dist'));
+if (process.env.NODE_ENV === 'production') {
+  const staticFileMiddleware = express.static('../client/dist');
+  app.use(staticFileMiddleware);
+  app.use(history({
+    disableDotRule: true,
+    verbose: true
+  }));
+  app.use(staticFileMiddleware);
+}

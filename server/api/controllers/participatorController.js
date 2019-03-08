@@ -7,6 +7,13 @@ export default class ParticipatorController {
     const participatorName = req.body.name;
 
     const meetingStore = meetingsModel.get(meetingName);
+
+    if (!meetingStore) {
+      res.status(500);
+      res.send('{}');
+      return;
+    }
+
     const participatorStore = meetingStore.get('participators');
 
     if (participatorName === '' || participatorStore.has(participatorName)) {
@@ -19,7 +26,7 @@ export default class ParticipatorController {
       store.set('name', participatorName);
       participatorStore.set(store);
 
-      console.info(`Add ${participatorName} to ${meetingName}`);
+      console.info(`Add participator \`${participatorName}\` to ${meetingName}`);
 
       if (meetingStore.has('listSocket')) {
         meetingStore.get('listSocket').emit('update', participatorStore.toArray());
@@ -31,6 +38,8 @@ export default class ParticipatorController {
   }
 
   static next(meetingName) {
+    if (!meetingsModel.has(meetingName)) return;
+
     const participatorStore = meetingsModel.get(meetingName).get('participators');
     const next = participatorStore.last();
     if (next) next.get('socket').emit('active');
