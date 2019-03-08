@@ -53,11 +53,19 @@ export default {
               this.state = 'active';
               window.navigator.vibrate(200);
             });
+
+          document.addEventListener('visibilitychange', this.hidden.bind(this));
         });
     },
     stop: function() {
       Api.closeSocket(this.participateSocket);
       this.state = 'default';
+    },
+    hidden: function() {
+      if (document.hidden) {
+        document.removeEventListener('visibilitychange', this.hidden.bind(this));
+        this.stop();
+      }
     }
   },
   created: function() {
