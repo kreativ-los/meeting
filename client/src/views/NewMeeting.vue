@@ -12,7 +12,7 @@
       </div>
 
       <div class="grid">
-        <div class="col-offset--3 col--12 col-md--8">
+        <div class="col-md-offset--3 col--12 col-md--8">
           <div class="note note--info">
             Deine Meeting URL: <strong class="url"><router-link :to="{name: 'meeting', params: {meetingName: meetingName}}">{{ meetingUrl }}</router-link></strong>
           </div>

@@ -18,34 +18,34 @@
   grid-gap: 1rem;
 
   .col {
-    @for $i from 1 to 12 {
+    @for $i from 1 to 13 {
       &--#{$i} {
-        grid-column-end: span #{$i};
+        grid-column-end: span #{$i + 2};
       }
     }
   }
 
   .col-offset {
-    @for $i from 1 to 12 {
+    @for $i from 1 to 13 {
       &--#{$i} {
-        grid-column-start: #{$i};
+        grid-column-start: #{$i + 2};
       }
     }
   }
 
   @include breakpoint(md up) {
     .col-md {
-      @for $i from 1 to 12 {
+      @for $i from 1 to 13 {
         &--#{$i} {
-          grid-column-end: span #{$i};
+          grid-column-end: span #{$i + 2};
         }
       }
     }
 
     .col-md-offset {
-      @for $i from 1 to 12 {
+      @for $i from 1 to 13 {
         &--#{$i} {
-          grid-column-start: #{$i};
+          grid-column-start: #{$i + 2};
         }
       }
     }
