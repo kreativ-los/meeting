@@ -20,7 +20,7 @@
   .col {
     @for $i from 1 to 13 {
       &--#{$i} {
-        grid-column-end: span #{$i + 2};
+        grid-column-end: span #{$i};
       }
     }
   }
@@ -28,7 +28,7 @@
   .col-offset {
     @for $i from 1 to 13 {
       &--#{$i} {
-        grid-column-start: #{$i + 2};
+        grid-column-start: #{$i};
       }
     }
   }
@@ -37,7 +37,7 @@
     .col-md {
       @for $i from 1 to 13 {
         &--#{$i} {
-          grid-column-end: span #{$i + 2};
+          grid-column-end: span #{$i};
         }
       }
     }
@@ -45,7 +45,7 @@
     .col-md-offset {
       @for $i from 1 to 13 {
         &--#{$i} {
-          grid-column-start: #{$i + 2};
+          grid-column-start: #{$i};
         }
       }
     }
