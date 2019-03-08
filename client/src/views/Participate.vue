@@ -1,12 +1,18 @@
 <template>
   <div class="participate">
-    <h2>Teilnehmen</h2>
-    <QrcodeStream @decode="joinMeeting"/>
+    <div class="container text--center">
+      <h2>Teilnehmen</h2>
+      <QrcodeStream @decode="joinMeeting"/>
+    </div>
 
-    <form @submit.prevent="joinMeeting()">
-      <input type="text" placeholder="Name" v-model="meetingName">
-      <button type="submit">Teilnehmen</button>
-    </form>
+    <div class="background">
+      <div class="container">
+        <form @submit.prevent="joinMeeting()" class="grid">
+          <input type="text" placeholder="Name des Meetings" v-model="meetingName" class="col--5 col-offset--3">
+          <button type="submit" class="cta col--3">Teilnehmen</button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,13 +45,14 @@ export default {
 
 <style lang="scss">
   @import '../scss/variables/colors';
+  @import '../scss/modules/circle';
 
   .qrcode-stream {
+    @extend .circle;
     position: relative;
     background: $primary--light;
     color: white;
-    width: 400px;
-    height: 400px;
+    margin: 0 auto;
 
     overflow: hidden;
     border-radius: 50%;

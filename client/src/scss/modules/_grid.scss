@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: $container-width;
   margin: 0 auto;
 }
 
@@ -12,7 +12,25 @@
   .col {
     @for $i from 1 to 12 {
       &--#{$i} {
-        grid-column: span #{$i};
+        grid-column-end: span #{$i};
+      }
+    }
+  }
+
+  .col-offset {
+    @for $i from 1 to 12 {
+      &--#{$i} {
+        grid-column-start: #{$i};
+      }
+    }
+  }
+
+  @include breakpoint(md up) {
+    .col-md {
+      @for $i from 1 to 12 {
+        &--#{$i} {
+          grid-column-end: span #{$i};
+        }
       }
     }
   }

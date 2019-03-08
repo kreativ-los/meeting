@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Home from './views/Home.vue'
+import Home from './views/Home.vue'
 import NewMeeting from './views/NewMeeting.vue'
 import Meeting from './views/Meeting.vue'
 import ParticipantList from './views/ParticipantList.vue'
@@ -13,6 +13,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/participate',
       name: 'participate',
       component: Participate
     },

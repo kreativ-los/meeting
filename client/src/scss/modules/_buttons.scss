@@ -1,4 +1,6 @@
-button {
+button,
+.btn {
+  cursor: pointer;
   appearance: none;
   padding: $space;
   border: 0;
@@ -12,5 +14,26 @@ button {
 
   &:hover {
     background: $primary--dark;
+  }
+
+  &.cta {
+    background: $secondary;
+    color: $primary--dark;
+
+    &:hover {
+      background: darken($secondary, 20%);
+    }
+
+    &::after {
+      content: '';
+      display: inline-block;
+      margin-left: $space;
+
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 5px 0 5px 5px;
+      border-color: transparent transparent transparent currentColor;
+    }
   }
 }

@@ -1,0 +1,27 @@
+.nav {
+  background: $background--lighter;
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    display: flex;
+    justify-content: center;
+
+    a {
+      display: block;
+      color: white;
+      padding: $space $space;
+      font-weight: 700;
+
+      transition: background .5s;
+      margin-right: $space;
+
+      &.router-link-exact-active,
+      &:hover {
+        background: $background;
+      }
+    }
+  }
+}

@@ -1,7 +1,8 @@
 input {
+  width: 100%;
   padding: $space;
   border: 0;
-  background: $primary;
+  background: $primary--dark;
   color: white;
   font-size: 1rem;
 
@@ -14,11 +15,15 @@ input {
   &:hover,
   &:active,
   &:focus {
-    background: $primary--dark;
+    background: $primary;
     outline: none;
   }
 }
 
 ::placeholder {
   color: white;
+}
+
+label {
+  font-weight: 300;
 }

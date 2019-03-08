@@ -1,0 +1,43 @@
+@function map-before($map, $current) {
+  $keys: map-keys($map);
+  $index: index($keys, $current) - 1;
+
+  @return if($index > 0, map-get($map, nth($keys, $index)), 0);
+}
+
+// A foundation inspired breakpoint mixin
+@mixin breakpoint($value) {
+  $breakpoint: nth($value, 1);
+  $dir: if(length($value) > 1, nth($value, 2), down);
+  $media: '';
+  $size: '';
+
+  @if $dir == 'down' {
+    $size: 'max-width';
+  } @else if $dir == 'up' {
+    $size: 'min-width';
+  }
+
+  @if $breakpoint == 'landscape' or $breakpoint == 'portrait' {
+    $media: '(orientation: #{$breakpoint})';
+  } @else if $breakpoint == 'retina' {
+    $media: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
+  } @else if type-of($breakpoint) == 'number' {
+    $media: '(#{$size}: #{$breakpoint})';
+  } @else if map-has-key($breakpoints, $breakpoint) {
+    $breakpointSize: map-get($breakpoints, $breakpoint);
+
+    @if $dir == 'only' {
+      $lowerBound: map-before($breakpoints, $breakpoint);
+      $media: '(min-width: #{$lowerBound}) and (max-width: #{$breakpointSize})';
+    } @else {
+      $media: '(#{$size}: #{$breakpointSize})';
+    }
+  } @else {
+    @error 'Breakpoint `#{$breakpoint}` doesnt exists';
+  }
+
+  @media #{$media} {
+    @content;
+  }
+}

@@ -1,15 +1,18 @@
 <template>
   <div class="meeting">
-    <h2>Meeting {{ meetingName }}</h2>
+    <div class="container text--center">
+      <h2>Meeting <span class="no-uppercase">{{ meetingName }}</span></h2>
 
-    <div>
-      <div class="qr-code">
-        <qrcode :value="meetingUrl" :options="{ width: 200 }"/>
+      <div>
+        <div class="qr-code circle">
+          <qrcode :value="meetingUrl" :options="{ width: 500 }"/>
+        </div>
       </div>
     </div>
 
-    <div>
-      Teilnehmer Reihenfolge:
+    <div class="container">
+      <h3>Teilnehmer Reihenfolge:</h3>
+
       <ol class="list">
         <li v-for="participator in participators">
           {{ participator }}
@@ -70,8 +73,19 @@ export default {
   @import '../scss/variables/colors';
   @import '../scss/variables/spacings';
 
+  h3 {
+    font-size: 2rem;
+  }
+
   .list {
+    padding: 0;
+    margin: 0;
+    list-style-position: inside;
+
     li {
+      padding: $space;
+      font-size: 2rem;
+
       &:nth-child(odd) {
         background: $primary;
       }

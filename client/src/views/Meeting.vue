@@ -1,10 +1,15 @@
 <template>
   <div class="meeting" :class="'meeting--state-' + state">
-    <h2>Meeting {{ meetingName }}</h2>
+    <h2>Meeting <span class="no-uppercase">{{ meetingName }}</span></h2>
 
-    <input type="text" v-model="participatorName" placeholder="Dein Name…">
+    <label>
+      Dein Name:
+      <input type="text" v-model="participatorName" placeholder="Dein Name…">
+    </label>
 
-    <button type="button" class="talk" @click="(state === 'default') ? start() : stop()" :disabled="participatorName === ''">Reden</button>
+    <div class="button-wrapper">
+      <button type="button" class="talk circle" @click="(state === 'default') ? start() : stop()" :disabled="participatorName === ''">Reden</button>
+    </div>
 
     <div v-if="meetingClosed" class="overlay"><div class="container">Das Meeting wurde beendet</div></div>
     <div v-if="meetingNotFound" class="overlay overlay--error"><div class="container">Das Meeting existiert leider nicht</div></div>
@@ -106,12 +111,26 @@ export default {
     }
   }
 
+  .meeting {
+    --color: #{$error};
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    &--state-pending {
+      --color: #{$warning};
+    }
+
+    &--state-active {
+      --color: #{$success};
+    }
+  }
+
   .talk {
     display: block;
     background: var(--color);
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
     box-shadow: 0 0 5rem 0 var(--color);
 
     animation: pulse 3s infinite;
@@ -123,15 +142,10 @@ export default {
     }
   }
 
-  .meeting {
-    --color: #{$error};
-
-    &--state-pending {
-      --color: #{$warning};
-    }
-
-    &--state-active {
-      --color: #{$success};
-    }
+  .button-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

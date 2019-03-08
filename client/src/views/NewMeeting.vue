@@ -1,28 +1,40 @@
 <template>
   <div class="new-meeting" v-bind:class="{ error: nameExists }">
-    <h2>Neues Meeting erstellen…</h2>
+    <div class="container text--center">
+      <h2>Neues Meeting erstellen…</h2>
 
-    <div class="grid">
-      <div class="col--3">
-        <div class="qr-code">
-          <qrcode :value="meetingUrl" :options="{ width: 200 }"/>
+      <p>
+        Du kannst entweder einen zufälligen Namen nutzen, oder dir deinen eigenen erstellen.
+      </p>
+
+      <div class="qr-code circle circle--small">
+        <qrcode :value="meetingUrl" :options="{ width: 500 }"/>
+      </div>
+
+      <div class="grid">
+        <div class="col-offset--3 col--8">
+          <div class="note note--info">
+            Deine Meeting URL: <strong class="url"><router-link :to="{name: 'meeting', params: {meetingName: meetingName}}">{{ meetingUrl }}</router-link></strong>
+          </div>
         </div>
       </div>
 
-      <div class="col--9">
-        <div v-if="nameExists" class="note note--error">Der gewünschte Name ist bereits vorhanden!</div>
-        <div v-if="hasError" class="note note--error">Es ist ein Fehler aufgetreten!</div>
+      <button @click.prevent="createMeeting()" class="cta">Jetzt erstellen</button>
+    </div>
 
-        <form @submit.prevent="createMeeting()">
-          <input type="text" placeholder="Name" v-model="customName">
-          <button type="submit">Erstellen</button>
-        </form>
+    <div class="background">
+      <div class="container text--center">
+        <h3>Oder doch lieber einen eigenen Namen?</h3>
+        <div class="grid">
+          <input type="text" placeholder="Wie soll dein Meeting heißen?" v-model="customName" class="col--5 col-offset--3">
 
-        <div class="note note--info">
-          Url: <span class="url">{{ meetingUrl }}</span>
+          <button @click.prevent="createMeeting()" class="cta col--3">Jetzt erstellen</button>
         </div>
       </div>
     </div>
+
+    <div v-if="nameExists" class="note note--error">Der gewünschte Name ist bereits vorhanden!</div>
+    <div v-if="hasError" class="note note--error">Es ist ein Fehler aufgetreten!</div>
   </div>
 </template>
 
@@ -85,6 +97,14 @@ export default {
   @import '../scss/variables/spacings';
 
   .new-meeting {
+    .url {
+      font-style: italic;
+
+      a {
+        color: inherit;
+      }
+    }
+
     &.error {
       .url {
         color: $error;
