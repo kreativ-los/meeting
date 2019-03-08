@@ -51,7 +51,7 @@ export default {
           }, '/participator')
             .on('active', () => {
               this.state = 'active';
-              window.navigator.vibrate(200);
+              window.navigator.vibrate(400);
             });
 
           document.addEventListener('visibilitychange', this.hidden.bind(this));
