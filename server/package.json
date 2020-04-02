@@ -2,22 +2,27 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node index.js",
-    "prod": "babel-node index.js"
+    "start": "nodemon --exec babel-node src/index.js",
+    "build": "babel src -d dist",
+    "prod": "node dist/index.js"
   },
   "author": "Thorben Ziegler <hallo@thorbenziegler.de>",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.19.4"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
+    "body-parser": "^1.19.0",
     "connect-history-api-fallback": "^1.6.0",
-    "express": "^4.16.4",
-    "socket.io": "^2.2.0"
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
   }
 }

@@ -30,6 +30,7 @@ participatorSockets.on('connection', function(socket) {
 
     if (meeting) {
       socket.join(query.meeting);
+      console.log(`Connected: ${query.participator} joined ${query.meeting}`); // eslint-disable-line
 
       if (meeting.has('participators')) {
         meeting.get('participators').data.forEach((participator) => {
@@ -37,6 +38,7 @@ participatorSockets.on('connection', function(socket) {
             participator.set('socket', socket);
 
             socket.on('disconnect', () => {
+              console.log(`Disconnect: ${query.participator} left ${query.meeting}`); // eslint-disable-line
               meeting.get('participators').delete(participator);
               meeting.get('listSocket').emit('update', meeting.get('participators').toArray());
 
@@ -58,7 +60,7 @@ meetingSockets.on('connection', function(socket) {
   const query = socket.handshake.query;
 
   if (meetingsModel.has(query.meeting)) {
-    console.log(query.meeting);
+    console.log(`Started: ${query.meeting}`);
     socket.join(query.meeting);
   }
 });

@@ -1,0 +1,10 @@
+version: "2.2"
+
+services:
+  meetings:
+    build: .
+    image: meetings
+    container_name: meetings
+    ports:
+      - 5000:5000
+    mem_limit: 20M
